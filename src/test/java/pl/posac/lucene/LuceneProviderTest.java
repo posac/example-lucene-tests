@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class LuceneProviderTest {
 
@@ -14,9 +14,14 @@ class LuceneProviderTest {
         //given
 
         //when
-        LuceneProvider instance = LuceneProvider.getInstance("src/test/resources/citiesToIndex.json");
+        LuceneProvider instance = LuceneProvider.getInstance(Constants.RESOURCE);
         //then
         assertNotNull(instance);
     }
 
+
+    @Test
+    public void shouldReturnSearchIndex() throws IOException {
+        assertNotNull(LuceneProvider.getInstance(Constants.RESOURCE).getIndexSearcher());
+    }
 }
