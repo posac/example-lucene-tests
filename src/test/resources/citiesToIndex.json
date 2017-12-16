@@ -1,0 +1,36 @@
+[
+  {
+    "id" : "PLWAR",
+    "name" : "Warszawa",
+    "alternative_names" : ["Warsaw", "Wawa"],
+    "country" : "PL"
+  },
+  {
+    "id" : "PLKRA",
+    "name" : "Krakow",
+    "alternative_names" : ["Cracow"],
+    "country" : "PL"
+  },
+  {
+    "id" : "PLWRO",
+    "name" : "Wroclaw",
+    "alternative_names" : ["Breslau", "Wrocek"],
+    "country" : "PL"
+  },
+  {
+    "id" : "PLPOZ",
+    "name" : "Poznan",
+    "country" : "PL"
+  },
+  {
+    "id" : "DEBER",
+    "name" : "Berlin",
+    "country" : "DE"
+  },
+  {
+    "id" : "DEMON",
+    "name" : "Monachium",
+    "alternative_names" : ["Munchen"],
+    "country" : "DE"
+  }
+]
