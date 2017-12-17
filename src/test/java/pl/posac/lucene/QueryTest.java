@@ -16,7 +16,7 @@ public class QueryTest {
     }
 
     @Test
-    void shouldReturnExactMatchWithId() throws IOException {
+    void shouldReturnExactMatchWithId() throws Exception {
 
         String text = "PLWRO";
 
@@ -27,7 +27,7 @@ public class QueryTest {
     }
 
     @Test
-    void shouldReturnExactMatchWithName() throws IOException {
+    void shouldReturnExactMatchWithName() throws Exception {
 
         String text = "Warszawa";
 
@@ -38,7 +38,7 @@ public class QueryTest {
     }
 
     @Test
-    void shouldReturnExactMatchWithAlternativeName() throws IOException {
+    void shouldReturnExactMatchWithAlternativeName() throws Exception {
 
         String text = "Wawa";
 
@@ -50,7 +50,7 @@ public class QueryTest {
 
 
     @Test
-    void shouldReturnReturnAllFromCountry() throws IOException {
+    void shouldReturnReturnAllFromCountry() throws Exception {
 
         String text = "DE";
 
@@ -62,4 +62,69 @@ public class QueryTest {
     }
 
 
+    @Test
+    void shouldBeNotCaseSensitive() throws Exception {
+
+        String text = "POZNAN";
+
+        List<SearchRepository.ScoredResult> results = searchRepository.search(text);
+
+        assertThat(results).anySatisfy(t -> assertThat(t.id).isEqualTo("PLPOZ"));
+
+    }
+
+    @Test
+    void shouldNotMakeFuzzySearchOnId() throws Exception {
+
+        String text = "N2Y";
+
+        List<SearchRepository.ScoredResult> results = searchRepository.search(text);
+
+        assertThat(results).isEmpty();
+
+    }
+
+    @Test
+    void shouldMakeWildCardSearchInNamePrefixed() throws Exception {
+
+        String text = "WRO";
+
+        List<SearchRepository.ScoredResult> results = searchRepository.search(text);
+
+        assertThat(results).anySatisfy(t -> assertThat(t.id).isEqualTo("PLWRO"));
+
+    }
+
+    @Test
+    void shouldMakeWildCardSearchInNameSurfixed() throws Exception {
+
+        String text = "claw";
+
+        List<SearchRepository.ScoredResult> results = searchRepository.search(text);
+
+        assertThat(results).anySatisfy(t -> assertThat(t.id).isEqualTo("PLWRO"));
+
+    }
+
+    @Test
+    void shouldMakeWildCardSearchInAlternativeNames() throws Exception {
+
+        String text = "slau";
+
+        List<SearchRepository.ScoredResult> results = searchRepository.search(text);
+
+        assertThat(results).anySatisfy(t -> assertThat(t.id).isEqualTo("PLWRO"));
+
+    }
+
+    @Test
+    void shouldPartsOfIdInTokensAndMergeThem() throws Exception {
+
+        String text = "US N2Y";
+
+        List<SearchRepository.ScoredResult> results = searchRepository.search(text);
+
+        assertThat(results).anySatisfy(t -> assertThat(t.id).isEqualTo("USN2Y"));
+
+    }
 }

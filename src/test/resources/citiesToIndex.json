@@ -32,5 +32,13 @@
     "name" : "Monachium",
     "alternative_names" : ["Munchen"],
     "country" : "DE"
+  },
+  {
+    "id": "USN2Y",
+    "name": "New York",
+    "alternative_names": [
+      "NYC"
+    ],
+    "country": "US"
   }
 ]

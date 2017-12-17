@@ -3,10 +3,11 @@ package pl.posac.lucene;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -23,12 +24,12 @@ public class LuceneProvider {
     private static LuceneProvider INSTANCE;
 
     private final RAMDirectory index;
-    private final StandardAnalyzer analyzer;
+    private final Analyzer analyzer;
     private List<City> cities;
 
     private LuceneProvider(String documentsPath) throws IOException {
 
-        analyzer = new StandardAnalyzer();
+        analyzer = new CustomAnalyzer();
         index = new RAMDirectory();
 
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
@@ -66,11 +67,11 @@ public class LuceneProvider {
     private Document createDocument(City city) {
         Document doc = new Document();
         doc.add(new StringField("id", city.getId(), Field.Store.YES));
-        doc.add(new StringField("name", city.getName(), Field.Store.YES));
+        doc.add(new TextField("name", city.getName(), Field.Store.YES));
         doc.add(new StringField("country", city.getCountry(), Field.Store.YES));
         if(city.getAlternativeNames()!=null)
             city.getAlternativeNames()
-                    .forEach(value -> doc.add(new StringField("alternative_name", value, Field.Store.YES)));
+                    .forEach(value -> doc.add(new TextField("alternative_name", value, Field.Store.YES)));
         return doc;
     }
 
